@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const touchValLabel = document.getElementById('touchValLabel');
 
     if (!userRoleSelect || !touchValInput || !touchValLabel) {
-        console.error("必需的元素未找到，请检查HTML结构和ID。");
+        console.error("Required elements for setting touch field label (userRoleSelect, touchValInput, or touchValLabel) not found. Aborting script execution.");
         return;
     }
 
@@ -14,23 +14,23 @@ document.addEventListener('DOMContentLoaded', function () {
         let labelText = '';
         let placeholderText = '';
         switch (selectedValue) {
-            case '1': // 管理员
+            case '1': // Administrator
                 labelText = 'ID：';
                 placeholderText = '输入ID';
                 break;
-            case '2': // 教师
+            case '2': // Teacher
                 labelText = '工号：';
                 placeholderText = '输入工号';
                 break;
-            case '3': // 学生
+            case '3': // Student
                 labelText = '学号：';
                 placeholderText = '输入学号';
                 break;
-            case '4': // 职工
+            case '4': // Staff
                 labelText = '工号：';
                 placeholderText = '输入工号';
                 break;
-            default: // 默认或未知情况
+            default:  // Fallback
                 labelText = '学号：';
                 placeholderText = '输入学号';
                 break;
@@ -41,6 +41,5 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     userRoleSelect.addEventListener('change', updateTouchField);
-
     updateTouchField();
 });

@@ -15,52 +15,24 @@ document.addEventListener('DOMContentLoaded', function () {
         '3': '../imgs/pixel_travelfrog.jpg'
     };
 
-    if (messageArea) {
-        messageArea.textContent = '';
-        messageArea.className = '';
-    }
-
-    function displayMessage(msg, type) {
-        if (!messageArea) {
-            console.warn("Message area element not found.");
-            return;
-        }
-        messageArea.textContent = msg;
-        messageArea.className = '';
-        messageArea.classList.add(type + '-message');
-
-        if (messageArea.timeoutId) {
-            clearTimeout(messageArea.timeoutId);
-        }
-        if (type === 'success') {
-            messageArea.timeoutId = setTimeout(() => {
-                messageArea.textContent = '';
-                messageArea.className = '';
-            }, 5000);
-        } else {
-            messageArea.timeoutId = setTimeout(() => {
-                messageArea.textContent = '';
-                messageArea.className = '';
-            }, 30000);
-        }
-    }
-
     const currentUserJSON = sessionStorage.getItem(CURRENT_USER_STORAGE_KEY);
 
     if (currentUserJSON) {
         try {
             const currentUser = JSON.parse(currentUserJSON);
 
-            if (currentUser && typeof currentUser === 'object' && currentUser.userName) {
+            if (currentUser && typeof currentUser === 'object' && currentUser.userName && currentUser.userRoleValue && currentUser.touchValue) {
                 if (infoUserName && infoTouchValue && infoGender && infoUserRole && infoHobbies && infoNotes && infoUserAvatar && infoTable) {
                     infoUserName.textContent = currentUser.userName || 'N/A';
                     infoTouchValue.textContent = currentUser.touchValue || 'N/A';
+
                     let genderText = 'N/A';
                     if (currentUser.gender === '1') genderText = '男';
                     else if (currentUser.gender === '0') genderText = '女';
                     infoGender.textContent = genderText;
 
-                    infoUserRole.textContent = currentUser.userRoleText || 'N/A';
+                    infoUserRole.textContent = currentUser.userRoleText || `Role ${currentUser.userRoleValue}`;
+
                     const hobbiesText = (Array.isArray(currentUser.hobbies) && currentUser.hobbies.length > 0) ? currentUser.hobbies.join(', ') : '无';
                     infoHobbies.textContent = hobbiesText;
 
@@ -79,12 +51,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     infoTable.style.display = '';
 
                 } else {
-                    console.error("INFO: 部分表格元素未找到，无法完全填充信息。");
-                    if (infoArea) infoTable.style.display = '';
+                    console.error("INFO: Some required elements for displaying user info table were not found in the HTML.");
+                    if (infoTable) infoTable.style.display = '';
                 }
 
             } else {
-                console.error("Invalid user data format in sessionStorage. Clearing and redirecting.");
+                console.error("Invalid or incomplete user data format in sessionStorage.");
                 sessionStorage.removeItem(CURRENT_USER_STORAGE_KEY);
                 handleNotLoggedIn();
             }
@@ -100,7 +72,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function handleNotLoggedIn() {
-        displayMessage("未登录，请先登录！3秒后跳转至登录页...", 'error');
+        if (typeof displayMessage !== 'function') {
+            console.error("displayMessage function not available. indexLoginState.js may not be loaded correctly.");
+            alert("您尚未登录，请先登录！3秒后跳转至登录页...");
+        } else {
+            displayMessage("您尚未登录，请先登录！3秒后跳转至登录页...", 'error');
+        }
 
         if (infoTable) {
             infoTable.style.display = 'none';
@@ -109,5 +86,10 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             window.location.href = '../htmls/login.html';
         }, 3000);
+    }
+
+    if (messageArea) {
+        messageArea.textContent = '';
+        messageArea.className = '';
     }
 });

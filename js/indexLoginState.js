@@ -37,9 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (logoutButton) logoutButton.style.display = 'inline-block';
 
-                if (navLinks) {
-                    navLinks.classList.add('hide-links');
-                }
 
             } catch (e) {
                 console.error("Error parsing current user data from sessionStorage:", e);
@@ -56,9 +53,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (logoutButton) logoutButton.style.display = 'none';
 
-            if (navLinks) {
-                navLinks.classList.remove('hide-links');
-            }
         }
     }
 
@@ -71,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function () {
         messageArea.className = '';
         messageArea.classList.add(type + '-message');
 
-        // 消息显示一段时间后消失（可选）
         if (messageArea.timeoutId) {
             clearTimeout(messageArea.timeoutId);
         }
