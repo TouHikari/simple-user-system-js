@@ -27,9 +27,8 @@
 
 1.  **克隆仓库:**
     ```bash
-    git clone https://github.com/Your_GitHub_Username/simple-user-system-js.git
+    git clone https://github.com/TouHikari/simple-user-system-js
     ```
-    _(请将 `Your_GitHub_Username` 替换为你的实际用户名)_
 2.  **打开文件:** 进入项目目录，在浏览器中直接打开 `index.html` 文件即可。
 
     **注意:** 直接通过 `file://` 协议打开 `index.html` 文件可能会遇到某些浏览器限制（特别是涉及到 LocalStorage/SessionStorage 的访问）。**强烈建议使用一个简单的本地 Web 服务器来提供文件服务**，例如：
